@@ -111,12 +111,18 @@ paths:
         "500":
           description: Internal Server Error
   /transaction/{userId}:
-    get:
+    post:
+      security:
+        - Bearer: []
       tags:
         - Transaction Module
       summary: Get all user transactions
       description: Get all of one user transaction by passing the user id in the params
       parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
         - in: path
           name: userId
           description: id of the concerned user
@@ -130,17 +136,25 @@ paths:
           description: Transactions retrieve successfully
           schema:
             $ref: "#/definitions/UserTransactions"
+        "401":
+          description: Unauthorized user
         "404":
           description: Unknown user id
         "500":
           description: Internal Server Error
   /transaction/{id}:
-    get:
+    post:
+      security:
+        - Bearer: []
       tags:
         - Transaction Module
       summary: Get one specific transaction
       description: Display one specific transaction depending on id
       parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
         - in: path
           name: transactionId
           description: id of the concerned transaction
@@ -153,7 +167,9 @@ paths:
         "200":
           description: Transaction retrieve successfully
           schema:
-            $ref: "#/definitions/Transactions"
+            $ref: "#/definitions/Transaction"
+        "401":
+          description: Unauthorized user
         "404":
           description: Could not retrieve data for this transaction id
         "500":
@@ -189,6 +205,8 @@ paths:
           description: Transaction updated successfully
           schema:
             $ref: "#/definitions/Transaction"
+        "401":
+          description: Unauthorized user
         "404":
           description: no transaction found with this id
         "500":
